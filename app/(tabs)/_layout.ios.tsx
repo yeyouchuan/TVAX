@@ -1,11 +1,37 @@
+import { useAssets } from 'expo-asset'
 import { Tabs } from 'expo-router'
 import { SymbolView } from 'expo-symbols'
+import { ImageBackground } from 'react-native'
+
+function HeaderBackground() {
+  // Combined with the configuration in app.json,
+  // this will accelerate the loading process.
+  // eslint-disable-next-line ts/no-require-imports
+  const [_assets] = useAssets([require('~/assets/images/bg.png')])
+
+  return (
+    <ImageBackground
+      // eslint-disable-next-line ts/no-require-imports
+      source={require('~/assets/images/bg.png')}
+      style={{ height: '100%', width: '100%' }}
+    />
+  )
+}
 
 export default function TabLayout() {
   return (
-    <Tabs screenOptions={{
-      tabBarActiveTintColor: 'blue',
-    }}
+    <Tabs
+      screenOptions={{
+        headerBackground: () => <HeaderBackground />,
+        headerTintColor: '#FFEDD5',
+        headerTitleStyle: {
+          fontSize: 22,
+          fontWeight: '900',
+          letterSpacing: -0.43,
+          transform: [{ scaleY: 0.8 }], // 通过 scaleY 来压缩字体高度
+        },
+        tabBarActiveTintColor: 'blue',
+      }}
     >
       <Tabs.Screen
         name="index"
