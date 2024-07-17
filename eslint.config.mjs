@@ -19,5 +19,6 @@ export default antfu({
     'components/ui/*',
     'lib/*',
     'tailwind.config.js',
+    'index.js',
   ],
 }), perfectionistNatural)

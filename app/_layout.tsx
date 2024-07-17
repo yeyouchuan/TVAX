@@ -1,14 +1,15 @@
-import '~/global.css';
-import { SplashScreen, Stack } from 'expo-router';
-import { PortalHost } from '@rn-primitives/portal';
+import { PortalHost } from '@rn-primitives/portal'
+import { SplashScreen, Stack } from 'expo-router'
+
+import '~/global.css'
 
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
-} from 'expo-router';
+} from 'expo-router'
 
 // Prevent the splash screen from auto-hiding before getting the color scheme.
-SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
   return (
@@ -17,11 +18,11 @@ export default function RootLayout() {
         <Stack.Screen
           name="(tabs)"
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
       </Stack>
       <PortalHost />
     </>
-  );
+  )
 }
