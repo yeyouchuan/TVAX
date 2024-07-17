@@ -1,7 +1,8 @@
+import '~/global.css'
+
+// eslint-disable-next-line perfectionist/sort-imports
 import { PortalHost } from '@rn-primitives/portal'
 import { SplashScreen, Stack } from 'expo-router'
-
-import '~/global.css'
 
 export {
   // Catch any errors thrown by the Layout component.

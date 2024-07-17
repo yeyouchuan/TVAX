@@ -12,14 +12,21 @@ export default function TabLayout() {
         name="index"
         options={{
           tabBarIcon: ({ color }) => <FontAwesome color={color} name="home" size={28} />,
-          title: 'Home',
+          title: 'Timeline',
         }}
       />
       <Tabs.Screen
-        name="settings"
+        name="swap"
         options={{
           tabBarIcon: ({ color }) => <FontAwesome color={color} name="cog" size={28} />,
-          title: 'Settings',
+          title: 'Swap',
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          tabBarIcon: ({ color }) => <FontAwesome color={color} name="user" size={28} />,
+          title: 'Profile',
         }}
       />
     </Tabs>
