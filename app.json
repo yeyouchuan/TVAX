@@ -15,7 +15,8 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "app.timeswap.tvax"
+      "bundleIdentifier": "app.timeswap.tvax",
+      "buildNumber": "3"
     },
     "android": {
       "adaptiveIcon": {
