@@ -1,5 +1,5 @@
-import { Ionicons } from '@expo/vector-icons'
 import { Tabs } from 'expo-router'
+import { SymbolView } from 'expo-symbols'
 
 export default function TabLayout() {
   return (
@@ -12,10 +12,9 @@ export default function TabLayout() {
         name="index"
         options={{
           tabBarIcon: ({ focused }) => (
-            <Ionicons
-              color={focused ? 'blue' : 'gray'}
-              name={focused ? 'calendar' : 'calendar-outline'}
-              size={24}
+            <SymbolView
+              name="calendar.day.timeline.left"
+              tintColor={focused ? 'blue' : 'gray'}
             />
           ),
           title: 'Timeline',
@@ -25,10 +24,9 @@ export default function TabLayout() {
         name="swap"
         options={{
           tabBarIcon: ({ focused }) => (
-            <Ionicons
-              color={focused ? 'blue' : 'gray'}
-              name={focused ? 'sync' : 'sync-outline'}
-              size={24}
+            <SymbolView
+              name="clock.arrow.2.circlepath"
+              tintColor={focused ? 'blue' : 'gray'}
             />
           ),
           title: 'Swap',
@@ -38,10 +36,9 @@ export default function TabLayout() {
         name="profile"
         options={{
           tabBarIcon: ({ focused }) => (
-            <Ionicons
-              color={focused ? 'blue' : 'gray'}
-              name={focused ? 'person' : 'person-outline'}
-              size={24}
+            <SymbolView
+              name={focused ? 'person.crop.circle.fill' : 'person.crop.circle'}
+              tintColor={focused ? 'blue' : 'gray'}
             />
           ),
           title: 'Profile',
