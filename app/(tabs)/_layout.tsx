@@ -4,13 +4,13 @@ import { Tabs } from 'expo-router'
 export default function TabLayout() {
   return (
     <Tabs screenOptions={{
-      headerShown: false,
       tabBarActiveTintColor: 'blue',
     }}
     >
       <Tabs.Screen
         name="index"
         options={{
+          headerTitle: 'Time Ticket',
           tabBarIcon: ({ focused }) => (
             <Ionicons
               color={focused ? 'blue' : 'gray'}

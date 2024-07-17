@@ -4,13 +4,13 @@ import { SymbolView } from 'expo-symbols'
 export default function TabLayout() {
   return (
     <Tabs screenOptions={{
-      headerShown: false,
       tabBarActiveTintColor: 'blue',
     }}
     >
       <Tabs.Screen
         name="index"
         options={{
+          headerTitle: 'Time Ticket',
           tabBarIcon: ({ focused }) => (
             <SymbolView
               name="calendar.day.timeline.left"
