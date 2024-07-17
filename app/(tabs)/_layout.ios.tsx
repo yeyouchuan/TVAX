@@ -28,9 +28,15 @@ export default function TabLayout() {
           fontSize: 22,
           fontWeight: '900',
           letterSpacing: -0.43,
-          transform: [{ scaleY: 0.8 }], // 通过 scaleY 来压缩字体高度
+          // 通过 scaleY 来压缩字体高度
+          transform: [{ scaleY: 0.8 }],
         },
         tabBarActiveTintColor: 'blue',
+        tabBarBackground: () => <HeaderBackground />,
+        tabBarIconStyle: {
+          // Fixed the icon scaling issue
+          transform: [{ scaleX: 1.15 }],
+        },
       }}
     >
       <Tabs.Screen
