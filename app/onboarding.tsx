@@ -5,9 +5,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import Slider from '@react-native-community/slider'
 import { useAssets } from 'expo-asset'
 import { Stack, useRouter } from 'expo-router'
-import { StyleSheet } from 'nativewind'
 import { useRef, useState } from 'react'
-import { Animated, Image, ImageBackground, View } from 'react-native'
+import { ActivityIndicator, Animated, Image, ImageBackground, View } from 'react-native'
 
 import { PrimaryBackground } from '~/components/PrimaryBackground'
 import { Button } from '~/components/ui/button'
@@ -26,10 +25,13 @@ interface OnboardingProps {
 
 function Onboarding({ getStartedRoute, steps }: OnboardingProps) {
   const [currentStep, setCurrentStep] = useState(0)
+  const [loading, setLoading] = useState(false)
   const fadeAnim = useRef(new Animated.Value(1)).current
   const router = useRouter()
 
   const handleNext = async () => {
+    if (loading)
+      return
     Animated.timing(fadeAnim, {
       duration: 300,
       toValue: 0,
@@ -39,8 +41,36 @@ function Onboarding({ getStartedRoute, steps }: OnboardingProps) {
         setCurrentStep(currentStep + 1)
       }
       else {
+        setLoading(true)
         await AsyncStorage.setItem('hasSeenOnboarding', 'true')
-        router.replace(getStartedRoute)
+        // Simulate API request
+        fetch('https://api.dify.ai/v1/workflows/run', {
+          body: JSON.stringify({
+            inputs: {
+              age: '30',
+              daily_salary: '100',
+              input: 'example_input',
+            },
+            user: 'abc-123',
+          }),
+          headers: {
+            'Authorization': 'Bearer app-6AM9d2Gd3LTuLkE5Gr3fMQyi',
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+        })
+          .then(response => response.json())
+          .then(async (data) => {
+            const timeSerie = data.data.outputs.time_serie
+            await AsyncStorage.setItem('timeSerie', timeSerie)
+            router.replace(getStartedRoute)
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+          .finally(() => {
+            setLoading(false)
+          })
       }
       Animated.timing(fadeAnim, {
         duration: 300,
@@ -97,10 +127,16 @@ function Onboarding({ getStartedRoute, steps }: OnboardingProps) {
                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
               </Text>
-              <Button className="mx-16 mb-32 rounded-3xl" onPress={handleNext}>
-                <Text className="font-bold text-gray-300">
-                  {currentStep === steps.length - 1 ? 'Get Started' : 'Next'}
-                </Text>
+              <Button className="mx-16 mb-32 rounded-3xl" disabled={loading} onPress={handleNext}>
+                {loading
+                  ? (
+                      <ActivityIndicator color="#FFFFFF" size="small" />
+                    )
+                  : (
+                      <Text className="font-bold text-gray-300">
+                        {currentStep === steps.length - 1 ? 'Get Started' : 'Next'}
+                      </Text>
+                    )}
               </Button>
             </View>
           </Animated.View>
@@ -139,7 +175,7 @@ export default function Tab() {
     },
     {
       customComponent: function CustomComponent() {
-        const [timeValue, setTimeValue] = useState(80)
+        const [salaryValue, setSalaryValue] = useState(80)
         const [ageValue, setAgeValue] = useState(25)
 
         return (
@@ -165,7 +201,7 @@ export default function Tab() {
               <Text
                 className="font-bold text-[#0E1F34]"
               >
-                How Much Time to Sell?
+                How Much Do You Earn a Day?
               </Text>
             </View>
             <Slider
@@ -174,11 +210,17 @@ export default function Tab() {
               maximumValue={100}
               minimumTrackTintColor="#DB3A00"
               minimumValue={1}
-              onValueChange={setTimeValue}
+              onValueChange={setSalaryValue}
               step={1}
               thumbTintColor="#E8D6D0"
-              value={timeValue}
+              value={salaryValue}
             />
+            <Text
+              className="-mt-2 mb-6 font-bold text-[#0E1F34]"
+            >
+              {salaryValue * 100}
+              ¥
+            </Text>
             <View className="flex flex-row items-center gap-1.5">
               <Feather
                 color="#DB3A00"
