@@ -31,11 +31,15 @@ export default function TabLayout() {
           // 通过 scaleY 来压缩字体高度
           transform: [{ scaleY: 0.8 }],
         },
-        tabBarActiveTintColor: 'blue',
+        tabBarActiveTintColor: '#FFEDD5',
         tabBarBackground: () => <HeaderBackground />,
         tabBarIconStyle: {
           // Fixed the icon scaling issue
           transform: [{ scaleX: 1.15 }],
+        },
+        tabBarInactiveTintColor: '#193557',
+        tabBarLabelStyle: {
+          fontWeight: 'bold',
         },
       }}
     >
@@ -46,7 +50,7 @@ export default function TabLayout() {
           tabBarIcon: ({ focused }) => (
             <SymbolView
               name="calendar.day.timeline.left"
-              tintColor={focused ? 'blue' : 'gray'}
+              tintColor={focused ? '#FFEDD5' : '#193557'}
             />
           ),
           title: 'Timeline',
@@ -58,7 +62,7 @@ export default function TabLayout() {
           tabBarIcon: ({ focused }) => (
             <SymbolView
               name="clock.arrow.2.circlepath"
-              tintColor={focused ? 'blue' : 'gray'}
+              tintColor={focused ? '#FFEDD5' : '#193557'}
             />
           ),
           title: 'Swap',
@@ -70,7 +74,7 @@ export default function TabLayout() {
           tabBarIcon: ({ focused }) => (
             <SymbolView
               name={focused ? 'person.crop.circle.fill' : 'person.crop.circle'}
-              tintColor={focused ? 'blue' : 'gray'}
+              tintColor={focused ? '#FFEDD5' : '#193557'}
             />
           ),
           title: 'Profile',
