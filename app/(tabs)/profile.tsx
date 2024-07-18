@@ -1,112 +1,157 @@
+import type { ImageSourcePropType } from 'react-native'
+
 import { useAssets } from 'expo-asset'
-import * as React from 'react'
-import { ImageBackground, View } from 'react-native'
-import Animated, { FadeInUp, FadeOutDown, LayoutAnimationConfig } from 'react-native-reanimated'
+import { Image, ImageBackground, ScrollView, View } from 'react-native'
 
-import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
-import { Button } from '~/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '~/components/ui/card'
-import { Progress } from '~/components/ui/progress'
 import { Text } from '~/components/ui/text'
-import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip'
-import { Info } from '~/lib/icons/Info'
 
-const GITHUB_AVATAR_URI
-  = 'https://i.pinimg.com/originals/ef/a2/8d/efa28d18a04e7fa40ed49eeb0ab660db.jpg'
+interface TagProps {
+  icon?: ImageSourcePropType
+  label: string
+}
 
-export default function Tab() {
+function Tag({ icon, label }: TagProps) {
+  return (
+    <View className="m-1 flex flex-row items-center justify-center gap-1 rounded-md bg-black px-3 py-1">
+      <Text className="text-gray-200">{label}</Text>
+      {icon && (
+        <Image
+          className="size-5"
+          source={icon}
+        />
+      )}
+    </View>
+  )
+}
+
+interface RatioProps {
+  value: number
+}
+
+function Ratio({ value }: RatioProps) {
+  const filledCount = Math.ceil(value)
+  const totalCount = 5
   // eslint-disable-next-line ts/no-require-imports
-  const [_assets] = useAssets([require('~/assets/images/secondary_bg.png')])
+  const filledImage = require('~/assets/images/profile_ratio_fill.png')
+  // eslint-disable-next-line ts/no-require-imports
+  const unfilledImage = require('~/assets/images/profile_ratio.png')
 
-  const [progress, setProgress] = React.useState(78)
-
-  function updateProgressValue() {
-    setProgress(Math.floor(Math.random() * 100))
-  }
   return (
     <ImageBackground
+      className="mx-12 mt-4 h-24"
+      resizeMode="contain"
+      // eslint-disable-next-line ts/no-require-imports
+      source={require('~/assets/images/profile_ratio_container.png')}
+    >
+      <View className="flex flex-row items-center justify-around p-4 px-8">
+        {Array.from({ length: totalCount }).map((_, index) => (
+          <Image
+            className="h-16 w-8"
+            key={index}
+            resizeMode="contain"
+            source={index < filledCount ? filledImage : unfilledImage}
+          />
+        ))}
+      </View>
+    </ImageBackground>
+  )
+}
+
+export default function Tab() {
+  const [_assets] = useAssets([
+    /* eslint-disable ts/no-require-imports */
+    require('~/assets/images/secondary_bg.png'),
+    require('~/assets/images/card_bg.png'),
+    require('~/assets/images/profile_avatar.png'),
+    require('~/assets/images/profile_tag_star.png'),
+    require('~/assets/images/profile_ratio_container.png'),
+    require('~/assets/images/profile_ratio.png'),
+    require('~/assets/images/profile_ratio_fill.png'),
+    /* eslint-enable ts/no-require-imports */
+  ])
+
+  return (
+    <ImageBackground
+      className="size-full"
       // eslint-disable-next-line ts/no-require-imports
       source={require('~/assets/images/secondary_bg.png')}
-      style={{
-        height: '100%',
-        width: '100%',
-      }}
     >
-      <View className="flex-1 items-center justify-center gap-5 p-6">
-        <Card className="w-full max-w-sm rounded-2xl p-6">
-          <CardHeader className="items-center">
-            <Avatar alt="Rick Sanchez's Avatar" className="size-24">
-              <AvatarImage source={{ uri: GITHUB_AVATAR_URI }} />
-              <AvatarFallback>
-                <Text>RS</Text>
-              </AvatarFallback>
-            </Avatar>
-            <View className="p-3" />
-            <CardTitle className="pb-2 text-center">Rick Sanchez</CardTitle>
-            <View className="flex-row">
-              <CardDescription className="text-base font-semibold">Scientist</CardDescription>
-              <Tooltip delayDuration={150}>
-                <TooltipTrigger className="px-2 pb-0.5 active:opacity-50">
-                  <Info className="size-4 text-foreground/70" size={14} strokeWidth={2.5} />
-                </TooltipTrigger>
-                <TooltipContent className="px-4 py-2 shadow">
-                  <Text className="native:text-lg">Freelance</Text>
-                </TooltipContent>
-              </Tooltip>
-            </View>
-          </CardHeader>
-          <CardContent>
-            <View className="flex-row justify-around gap-3">
-              <View className="items-center">
-                <Text className="text-sm text-muted-foreground">Dimension</Text>
-                <Text className="text-xl font-semibold">C-137</Text>
-              </View>
-              <View className="items-center">
-                <Text className="text-sm text-muted-foreground">Age</Text>
-                <Text className="text-xl font-semibold">70</Text>
-              </View>
-              <View className="items-center">
-                <Text className="text-sm text-muted-foreground">Species</Text>
-                <Text className="text-xl font-semibold">Human</Text>
-              </View>
-            </View>
-          </CardContent>
-          <CardFooter className="flex-col gap-3 pb-0">
-            <View className="flex-row items-center overflow-hidden">
-              <Text className="text-sm text-muted-foreground">Productivity:</Text>
-              <LayoutAnimationConfig skipEntering>
-                <Animated.View
-                  className="w-11 items-center"
-                  entering={FadeInUp}
-                  exiting={FadeOutDown}
-                  key={progress}
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+        }}
+      >
+        <View className="mt-20 flex-1 items-center justify-center">
+          <ImageBackground
+            className="size-full"
+            resizeMode="stretch"
+            // eslint-disable-next-line ts/no-require-imports
+            source={require('~/assets/images/card_bg.png')}
+          >
+            <View className="mx-7">
+              <View className="-mt-16 h-32 w-full">
+                <Image
+                  className="size-44"
+                  resizeMode="contain"
+                  // eslint-disable-next-line ts/no-require-imports
+                  source={require('~/assets/images/profile_avatar.png')}
+                />
+                <Text
+                  className="absolute bottom-0 right-8 text-2xl font-bold text-[#193557]"
+                  style={{
+                    transform: [{ scaleY: 0.8 }],
+                  }}
                 >
-                  <Text className="text-sm font-bold text-sky-600">
-                    {progress}
-                    %
-                  </Text>
-                </Animated.View>
-              </LayoutAnimationConfig>
+                  Wilson
+                </Text>
+              </View>
+              <View className="mt-10 flex flex-row flex-wrap justify-center px-5">
+                <Tag
+                  // eslint-disable-next-line ts/no-require-imports
+                  icon={require('~/assets/images/profile_tag_star.png')}
+                  label="Sexy"
+                />
+                <Tag label="Hardworker" />
+                <Tag label="Emo" />
+                <Tag label="Cute" />
+                <Tag
+                  // eslint-disable-next-line ts/no-require-imports
+                  icon={require('~/assets/images/profile_tag_star.png')}
+                  label="NSFW"
+                />
+              </View>
+              <View className="flex items-center">
+                <Text className="mt-6 text-2xl font-bold">Current TPP</Text>
+                <Text
+                  className="mt-2 text-8xl font-[900] tracking-tighter text-[#0E1F34]"
+                  style={{
+                    transform: [{ scaleY: 0.8 }],
+                  }}
+                >
+                  ¥1000
+                </Text>
+                <Text className="mx-12 -mt-2 text-sm leading-tight">
+                  <Text className="text-sm font-bold leading-tight">TPP (time price prediction) </Text>
+                  estimates the monetary value of an individual's time based on factors like profession, experience, location, and health.
+                </Text>
+              </View>
+              <Ratio value={1.8} />
+              <View className="flex items-center">
+                <Text className="mt-6 text-2xl font-bold">Time Rating</Text>
+                <Text
+                  className="mt-2 text-8xl font-[900] tracking-tighter text-[#0E1F34]"
+                  style={{
+                    transform: [{ scaleY: 0.8 }],
+                  }}
+                >
+                  1.8
+                </Text>
+              </View>
+              <View className="h-20" />
             </View>
-            <Progress className="h-2" indicatorClassName="bg-sky-600" value={progress} />
-            <View />
-            <Button
-              className="shadow shadow-foreground/5"
-              onPress={updateProgressValue}
-              variant="outline"
-            >
-              <Text>Update</Text>
-            </Button>
-          </CardFooter>
-        </Card>
-      </View>
+          </ImageBackground>
+        </View>
+      </ScrollView>
     </ImageBackground>
   )
 }
