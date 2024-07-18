@@ -61,14 +61,17 @@ export default function TabLayout() {
         options={{
           tabBarIcon: ({ focused }) => (
             <Image
+              resizeMode="stretch"
               // eslint-disable-next-line ts/no-require-imports
               source={require('~/assets/images/tab_swap.png')}
               style={{
-                height: 64,
+                height: 52,
                 marginTop: -30,
                 // when focused, the icon will be scaled up
-                transform: [{ scale: focused ? 1 : 0.95 }],
-                width: 58,
+                transform: [{
+                  scale: focused ? 1 : 0.95,
+                }],
+                width: 50,
               }}
             />
           ),
