@@ -36,7 +36,10 @@
       [
         "expo-asset",
         {
-          "assets": ["./assets/images/bg.png"]
+          "assets": [
+            "./assets/images/primary_bg.png",
+            "./assets/images/secondary_bg.png"
+          ]
         }
       ]
     ],

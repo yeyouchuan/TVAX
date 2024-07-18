@@ -3,16 +3,16 @@ import { Tabs } from 'expo-router'
 import { SymbolView } from 'expo-symbols'
 import { ImageBackground } from 'react-native'
 
-function HeaderBackground() {
+function PrimaryBackground() {
   // Combined with the configuration in app.json,
   // this will accelerate the loading process.
   // eslint-disable-next-line ts/no-require-imports
-  const [_assets] = useAssets([require('~/assets/images/bg.png')])
+  const [_assets] = useAssets([require('~/assets/images/primary_bg.png')])
 
   return (
     <ImageBackground
       // eslint-disable-next-line ts/no-require-imports
-      source={require('~/assets/images/bg.png')}
+      source={require('~/assets/images/primary_bg.png')}
       style={{ height: '100%', width: '100%' }}
     />
   )
@@ -22,7 +22,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerBackground: () => <HeaderBackground />,
+        headerBackground: () => <PrimaryBackground />,
         headerTintColor: '#FFEDD5',
         headerTitleStyle: {
           fontSize: 22,
@@ -32,7 +32,7 @@ export default function TabLayout() {
           transform: [{ scaleY: 0.8 }],
         },
         tabBarActiveTintColor: '#FFEDD5',
-        tabBarBackground: () => <HeaderBackground />,
+        tabBarBackground: () => <PrimaryBackground />,
         tabBarIconStyle: {
           // Fixed the icon scaling issue
           transform: [{ scaleX: 1.15 }],

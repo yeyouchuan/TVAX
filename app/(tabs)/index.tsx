@@ -1,11 +1,19 @@
-import { View } from 'react-native'
-
-import { Text } from '~/components/ui/text'
+import { useAssets } from 'expo-asset'
+import { ImageBackground } from 'react-native'
 
 export default function Tab() {
+  // eslint-disable-next-line ts/no-require-imports
+  const [_assets] = useAssets([require('~/assets/images/secondary_bg.png')])
+
   return (
-    <View>
-      <Text>Tab [Home|Settings]</Text>
-    </View>
+    <ImageBackground
+      // eslint-disable-next-line ts/no-require-imports
+      source={require('~/assets/images/secondary_bg.png')}
+      style={{
+        height: '100%',
+        width: '100%',
+      }}
+    >
+    </ImageBackground>
   )
 }
