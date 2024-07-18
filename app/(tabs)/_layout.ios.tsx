@@ -1,13 +1,13 @@
 import { useAssets } from 'expo-asset'
 import { Tabs } from 'expo-router'
 import { SymbolView } from 'expo-symbols'
-import { ImageBackground } from 'react-native'
+import { Image, ImageBackground } from 'react-native'
 
 function PrimaryBackground() {
   // Combined with the configuration in app.json,
   // this will accelerate the loading process.
   // eslint-disable-next-line ts/no-require-imports
-  const [_assets] = useAssets([require('~/assets/images/primary_bg.png')])
+  const [_assets] = useAssets([require('~/assets/images/primary_bg.png'), require('~/assets/images/tab_swap.png')])
 
   return (
     <ImageBackground
@@ -60,9 +60,16 @@ export default function TabLayout() {
         name="swap"
         options={{
           tabBarIcon: ({ focused }) => (
-            <SymbolView
-              name="clock.arrow.2.circlepath"
-              tintColor={focused ? '#FFEDD5' : '#193557'}
+            <Image
+              // eslint-disable-next-line ts/no-require-imports
+              source={require('~/assets/images/tab_swap.png')}
+              style={{
+                height: 64,
+                marginTop: -30,
+                // when focused, the icon will be scaled up
+                transform: [{ scale: focused ? 1 : 0.95 }],
+                width: 58,
+              }}
             />
           ),
           title: 'Swap',
