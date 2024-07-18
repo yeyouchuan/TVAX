@@ -13,8 +13,24 @@ export {
 
 export default function RootLayout() {
   // Loading this asset cause root layout case landing need it
-  // eslint-disable-next-line ts/no-require-imports
-  const [_assets] = useAssets([require('~/assets/images/card_bg.png')])
+  const [_assets] = useAssets([
+    /* eslint-disable ts/no-require-imports */
+    require('~/assets/images/card_bg.png'),
+    require('~/assets/images/onboarding_first.png'),
+    require('~/assets/images/onboarding_second.png'),
+    require('~/assets/images/onboarding_input_container.png'),
+    require('~/assets/images/onboarding_ios_calendar.png'),
+    require('~/assets/images/onboarding_ios_health.png'),
+    require('~/assets/images/primary_bg.png'),
+    require('~/assets/images/profile_ratio.png'),
+    require('~/assets/images/profile_ratio_container.png'),
+    require('~/assets/images/profile_ratio_fill.png'),
+    require('~/assets/images/profile_tag_star.png'),
+    require('~/assets/images/secondary_bg.png'),
+    require('~/assets/images/timeline_ticket.png'),
+    require('~/assets/images/timeline_ticket_soon.png'),
+    /* eslint-enable ts/no-require-imports */
+  ])
   const [hasSeenOnboarding, setHasSeenOnboarding] = useState<boolean | null>(null)
   const router = useRouter()
 
