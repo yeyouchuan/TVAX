@@ -1,6 +1,8 @@
 import type { ImageSourcePropType } from 'react-native'
 
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useAssets } from 'expo-asset'
+import { useEffect, useState } from 'react'
 import { Image, ImageBackground, ScrollView, View } from 'react-native'
 
 import { Text } from '~/components/ui/text'
@@ -70,6 +72,23 @@ export default function Tab() {
     /* eslint-enable ts/no-require-imports */
   ])
 
+  const [currentValue, setCurrentValue] = useState<number>(0)
+  const [ratioValue, setRatioValue] = useState<number>(0)
+
+  useEffect(() => {
+    const fetchCurrentValue = async () => {
+      const currentHour = new Date().getHours()
+      const data = await AsyncStorage.getItem('timeSerie')
+      if (data) {
+        const timeSerie = JSON.parse(data)
+        const value = timeSerie[currentHour] || 0
+        setCurrentValue(value * 1500)
+        setRatioValue(value * 1.5)
+      }
+    }
+    fetchCurrentValue()
+  }, [])
+
   return (
     <ImageBackground
       className="size-full"
@@ -128,14 +147,15 @@ export default function Tab() {
                     transform: [{ scaleY: 0.8 }],
                   }}
                 >
-                  ¥1000
+                  ¥
+                  {currentValue.toFixed(0)}
                 </Text>
                 <Text className="mx-12 -mt-2 text-sm leading-tight">
                   <Text className="text-sm font-bold leading-tight">TPP (time price prediction) </Text>
                   estimates the monetary value of an individual's time based on factors like profession, experience, location, and health.
                 </Text>
               </View>
-              <Ratio value={1.8} />
+              <Ratio value={ratioValue} />
               <View className="flex items-center">
                 <Text className="mt-6 text-2xl font-bold">Time Rating</Text>
                 <Text
@@ -144,7 +164,7 @@ export default function Tab() {
                     transform: [{ scaleY: 0.8 }],
                   }}
                 >
-                  1.8
+                  {ratioValue.toFixed(1)}
                 </Text>
               </View>
               <View className="h-20" />

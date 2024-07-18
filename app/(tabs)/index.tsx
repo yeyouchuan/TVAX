@@ -18,6 +18,8 @@ export default function Tab() {
 
   const [timeSerie, setTimeSerie] = useState<number[]>([])
   // const router = useRouter()
+  const [thumbsUpState, setThumbsUpState] = useState<{ [key: string]: boolean }>({})
+  const [thumbsDownState, setThumbsDownState] = useState<{ [key: string]: boolean }>({})
   const currentHour = new Date().getHours()
 
   useEffect(() => {
@@ -28,7 +30,37 @@ export default function Tab() {
       }
     }
     fetchTimeSerie()
+
+    const fetchThumbsState = async () => {
+      const thumbsUpData = await AsyncStorage.getItem('thumbsUpState')
+      const thumbsDownData = await AsyncStorage.getItem('thumbsDownState')
+      if (thumbsUpData) {
+        setThumbsUpState(JSON.parse(thumbsUpData))
+      }
+      if (thumbsDownData) {
+        setThumbsDownState(JSON.parse(thumbsDownData))
+      }
+    }
+    fetchThumbsState()
   }, [])
+
+  const handleThumbsUp = async (index: number) => {
+    const updatedThumbsUpState = { ...thumbsUpState, [`${index}-${currentHour}`]: true }
+    const updatedThumbsDownState = { ...thumbsDownState, [`${index}-${currentHour}`]: false }
+    setThumbsUpState(updatedThumbsUpState)
+    setThumbsDownState(updatedThumbsDownState)
+    await AsyncStorage.setItem('thumbsUpState', JSON.stringify(updatedThumbsUpState))
+    await AsyncStorage.setItem('thumbsDownState', JSON.stringify(updatedThumbsDownState))
+  }
+
+  const handleThumbsDown = async (index: number) => {
+    const updatedThumbsDownState = { ...thumbsDownState, [`${index}-${currentHour}`]: true }
+    const updatedThumbsUpState = { ...thumbsUpState, [`${index}-${currentHour}`]: false }
+    setThumbsDownState(updatedThumbsDownState)
+    setThumbsUpState(updatedThumbsUpState)
+    await AsyncStorage.setItem('thumbsDownState', JSON.stringify(updatedThumbsDownState))
+    await AsyncStorage.setItem('thumbsUpState', JSON.stringify(updatedThumbsUpState))
+  }
 
   return (
     <ImageBackground
@@ -90,7 +122,8 @@ export default function Tab() {
                           {!isSoon && (
                             <View className="flex flex-row gap-4 self-end">
                               <Button
-                                className="w-20 rounded-full border-[#E8D6D0] bg-[#DB3A00]"
+                                className={`w-20 rounded-full border-[#E8D6D0] bg-[#DB3A00] ${thumbsUpState[`${index}-${currentHour}`] ? '' : 'opacity-50'}`}
+                                onPress={() => handleThumbsUp(index)}
                               >
                                 <Feather
                                   color="#E8D6D0"
@@ -99,7 +132,8 @@ export default function Tab() {
                                 />
                               </Button>
                               <Button
-                                className="w-20 rounded-full border-[#E8D6D0] bg-[#193557]"
+                                className={`w-20 rounded-full border-[#E8D6D0] bg-[#193557] ${thumbsDownState[`${index}-${currentHour}`] ? '' : 'opacity-50'}`}
+                                onPress={() => handleThumbsDown(index)}
                               >
                                 <Feather
                                   color="#E8D6D0"
