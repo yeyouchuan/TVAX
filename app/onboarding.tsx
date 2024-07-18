@@ -1,5 +1,6 @@
 import type { ImageSourcePropType } from 'react-native'
 
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Stack, useRouter } from 'expo-router'
 import { useEffect, useRef, useState } from 'react'
 import { Animated, Image, ImageBackground, View } from 'react-native'
@@ -22,16 +23,17 @@ function Onboarding({ getStartedRoute, steps }: OnboardingProps) {
   const fadeAnim = useRef(new Animated.Value(1)).current
   const router = useRouter()
 
-  const handleNext = () => {
+  const handleNext = async () => {
     Animated.timing(fadeAnim, {
       duration: 300,
       toValue: 0,
       useNativeDriver: true,
-    }).start(() => {
+    }).start(async () => {
       if (currentStep < steps.length - 1) {
         setCurrentStep(currentStep + 1)
       }
       else {
+        await AsyncStorage.setItem('hasSeenOnboarding', 'true')
         router.replace(getStartedRoute)
       }
       Animated.timing(fadeAnim, {
@@ -50,7 +52,7 @@ function Onboarding({ getStartedRoute, steps }: OnboardingProps) {
       source={require('~/assets/images/secondary_bg.png')}
       style={{ height: '100%', width: '100%' }}
     >
-      <View className="-mb-12 mt-20 flex-1 items-center justify-center">
+      <View className="-mb-12 mt-8 flex-1 items-center justify-center">
         <ImageBackground
           className="size-full"
           resizeMode="stretch"
