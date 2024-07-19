@@ -18,7 +18,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "app.timeswap.tvax",
-      "buildNumber": "21"
+      "buildNumber": "25"
     },
     "android": {
       "adaptiveIcon": {

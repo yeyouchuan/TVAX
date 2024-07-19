@@ -7,7 +7,6 @@ import { useAssets } from 'expo-asset'
 import { Stack, useRouter } from 'expo-router'
 import { useRef, useState } from 'react'
 import {
-  ActivityIndicator,
   Animated,
   Image,
   ImageBackground,
@@ -19,6 +18,7 @@ import {
   View,
 } from 'react-native'
 
+import { FullScreenLoading } from '~/components/FullScreenLoading'
 import { PrimaryBackground } from '~/components/PrimaryBackground'
 import { Button } from '~/components/ui/button'
 import { Text } from '~/components/ui/text'
@@ -144,22 +144,17 @@ function Onboarding({ getStartedRoute, steps }: OnboardingProps) {
                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
                     </Text>
-                    <Button className="mx-16 mb-32 rounded-3xl" disabled={loading} onPress={handleNext}>
-                      {loading
-                        ? (
-                            <ActivityIndicator color="#FFFFFF" size="small" />
-                          )
-                        : (
-                            <Text className="font-bold text-gray-300">
-                              {currentStep === steps.length - 1 ? 'Get Started' : 'Next'}
-                            </Text>
-                          )}
+                    <Button className="mx-16 mb-32 rounded-3xl bg-gray-800" disabled={loading} onPress={handleNext}>
+                      <Text className="font-bold text-gray-300">
+                        {currentStep === steps.length - 1 ? 'Get Started' : 'Next'}
+                      </Text>
                     </Button>
                   </View>
                 </Animated.View>
               </ImageBackground>
             </View>
           </ScrollView>
+          {loading && <FullScreenLoading />}
         </ImageBackground>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

@@ -115,14 +115,6 @@ export default function Tab() {
                   // eslint-disable-next-line ts/no-require-imports
                   source={require('~/assets/images/profile_avatar.png')}
                 />
-                <Text
-                  className="absolute bottom-0 right-8 text-2xl font-bold text-[#193557]"
-                  style={{
-                    transform: [{ scaleY: 0.8 }],
-                  }}
-                >
-                  Wilson
-                </Text>
               </View>
               <View className="mt-10 flex flex-row flex-wrap justify-center px-5">
                 <Tag

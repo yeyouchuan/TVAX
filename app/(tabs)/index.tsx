@@ -93,7 +93,7 @@ export default function Tab() {
                     className="flex h-32 w-full flex-row items-center justify-between"
                   >
                     <View className="mx-2 flex w-1/12 items-center justify-center">
-                      <View className="flex size-6 items-center justify-center rounded-full bg-gray-200">
+                      <View className="flex size-6 items-center justify-center rounded-full bg-gray-200 text-black">
                         <Text>{index + 1}</Text>
                       </View>
                     </View>
