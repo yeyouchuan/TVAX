@@ -6,7 +6,18 @@ import Slider from '@react-native-community/slider'
 import { useAssets } from 'expo-asset'
 import { Stack, useRouter } from 'expo-router'
 import { useRef, useState } from 'react'
-import { ActivityIndicator, Animated, Image, ImageBackground, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Animated,
+  Image,
+  ImageBackground,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
 
 import { PrimaryBackground } from '~/components/PrimaryBackground'
 import { Button } from '~/components/ui/button'
@@ -83,66 +94,75 @@ function Onboarding({ getStartedRoute, steps }: OnboardingProps) {
   const { content, customComponent: CustomComponent, image, title } = steps[currentStep]
 
   return (
-    <ImageBackground
-      // eslint-disable-next-line ts/no-require-imports
-      source={require('~/assets/images/secondary_bg.png')}
-      style={{ height: '100%', width: '100%' }}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
     >
-      <View className="-mb-12 mt-8 flex-1 items-center justify-center">
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ImageBackground
-          className="size-full"
-          resizeMode="stretch"
           // eslint-disable-next-line ts/no-require-imports
-          source={require('~/assets/images/card_bg.png')}
+          source={require('~/assets/images/secondary_bg.png')}
+          style={{ height: '100%', width: '100%' }}
         >
-          <Animated.View className="flex-1 items-center justify-center" style={{ opacity: fadeAnim }}>
-            <View className="flex-1 px-4 pt-16">
-              <View className="mx-8">
-                <Text
-                  className="text-6xl font-bold uppercase text-black"
-                  style={{ transform: [{ scaleY: 0.8 }] }}
-                >
-                  {title}
-                </Text>
-                {content && <Text className="text-xl">{content}</Text>}
-                {image && (
-                  <Image
-                    className="mt-2 size-56 self-end"
-                    resizeMode="contain"
-                    source={image}
-                  />
-                )}
-                {CustomComponent && <CustomComponent />}
-              </View>
-              <Text
-                accessible={false}
-                className="my-8 mt-auto font-bold"
-                ellipsizeMode="clip"
-                numberOfLines={1}
+          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            <View className="-mb-12 mt-8 flex-1 items-center justify-center">
+              <ImageBackground
+                className="size-full"
+                resizeMode="stretch"
+                // eslint-disable-next-line ts/no-require-imports
+                source={require('~/assets/images/card_bg.png')}
               >
-                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-              </Text>
-              <Button className="mx-16 mb-32 rounded-3xl" disabled={loading} onPress={handleNext}>
-                {loading
-                  ? (
-                      <ActivityIndicator color="#FFFFFF" size="small" />
-                    )
-                  : (
-                      <Text className="font-bold text-gray-300">
-                        {currentStep === steps.length - 1 ? 'Get Started' : 'Next'}
+                <Animated.View className="flex-1 items-center justify-center" style={{ opacity: fadeAnim }}>
+                  <View className="flex-1 px-4 pt-16">
+                    <View className="mx-8">
+                      <Text
+                        className="text-6xl font-bold uppercase text-black"
+                        style={{ transform: [{ scaleY: 0.8 }] }}
+                      >
+                        {title}
                       </Text>
-                    )}
-              </Button>
+                      {content && <Text className="text-xl">{content}</Text>}
+                      {image && (
+                        <Image
+                          className="mt-2 size-56 self-end"
+                          resizeMode="contain"
+                          source={image}
+                        />
+                      )}
+                      {CustomComponent && <CustomComponent />}
+                    </View>
+                    <Text
+                      accessible={false}
+                      className="my-8 mt-auto font-bold"
+                      ellipsizeMode="clip"
+                      numberOfLines={1}
+                    >
+                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                    </Text>
+                    <Button className="mx-16 mb-32 rounded-3xl" disabled={loading} onPress={handleNext}>
+                      {loading
+                        ? (
+                            <ActivityIndicator color="#FFFFFF" size="small" />
+                          )
+                        : (
+                            <Text className="font-bold text-gray-300">
+                              {currentStep === steps.length - 1 ? 'Get Started' : 'Next'}
+                            </Text>
+                          )}
+                    </Button>
+                  </View>
+                </Animated.View>
+              </ImageBackground>
             </View>
-          </Animated.View>
+          </ScrollView>
         </ImageBackground>
-      </View>
-    </ImageBackground>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   )
 }
 
@@ -188,6 +208,7 @@ export default function Tab() {
             >
               <Textarea
                 className="w-80 border-0 bg-transparent p-4 py-6 font-bold text-white placeholder:text-wrap placeholder:text-[#E8D6D0]"
+                onBlur={Keyboard.dismiss}
                 placeholder="Type in some information about you here!"
                 placeholderTextColor="#E8D6D0"
               />
